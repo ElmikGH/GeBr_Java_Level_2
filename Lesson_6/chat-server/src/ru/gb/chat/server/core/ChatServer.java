@@ -16,7 +16,6 @@ public class ChatServer implements ServerSocketThreadListener, SocketThreadListe
     private ServerSocketThread server;
     private final DateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss: ");
     private Vector<SocketThread> userData = new Vector<>();
-    private SocketThread socketTread;
 
 
     public void start(int port) {
@@ -68,9 +67,7 @@ public class ChatServer implements ServerSocketThreadListener, SocketThreadListe
     public void onSocketAccepted(ServerSocketThread thread, ServerSocket server, Socket socket) {
         putLog("Client connected");
         String name = "SocketThread " + socket.getInetAddress() + ":" + socket.getPort();
-        socketTread = new SocketThread(name, this, socket);
-        userData.add(socketTread);
-
+        new SocketThread(name, this, socket);
     }
 
     @Override
@@ -85,6 +82,7 @@ public class ChatServer implements ServerSocketThreadListener, SocketThreadListe
     @Override
     public void onSocketStart(SocketThread thread, Socket socket) {
         putLog("Client connected");
+        userData.add(thread);
     }
 
     @Override
